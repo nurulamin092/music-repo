@@ -7,7 +7,6 @@ const elementById = id => {
 const handleSearch = () => {
   const keyword = elementById('keyword');
   const url = `https://theaudiodb.com/api/v1/json/2/search.php?s=${keyword.value}`;
-  console.log(url);
   fetch(url)
     .then(res => res.json())
     .then(data => showArtist(data))
@@ -32,11 +31,33 @@ const showArtist = ({ artists }) => {
     <p>Country:${artist.strCountry ? artist.strCountry : ' not available'}</p>
     <p>Style:${artist.strStyle ? artist.strStyle : ' not available'}</p>
   </div>
-  <button class="album-button">
+  <button onclick="fetchAlbum('${artist.idArtist}')" class="album-button">
     <i class="fa-solid fa-compact-disc"></i>
-    <p class="button-title">Albums</p>
+    <p  class="button-title">Albums</p>
   </button></p>`
-    console.log(artist);
+    // console.log(artist);
     artistContainer.appendChild(div)
+  });
+}
+const fetchAlbum = (id) => {
+  const url = `https://theaudiodb.com/api/v1/json/2/album.php?i=${id}`;
+
+  fetch(url).then(res => res.json()).then(data => showAlbum(data));
+}
+const showAlbum = ({ album }) => {
+
+  const albumContainer = elementById('albums');
+  albumContainer.textContent = '';
+  album.forEach(album => {
+    console.log(album);
+    const div = document.createElement('div');
+    div.classList.add('album');
+    div.innerHTML = ` <div class="album-image-container">
+       <img src="${album.strAlbumThumb ? album.strAlbumThumb : 'not found'}" alt="" />
+    </div>
+    <div class="album-name">
+      <h3>${album.strAlbumStripped ? album.strAlbumStripped : 'not found'}</h3>
+    </div>`
+    albumContainer.appendChild(div);
   });
 }
