@@ -6,10 +6,12 @@ const elementById = id => {
 
 const handleSearch = () => {
   const keyword = elementById('keyword');
+
   const url = `https://theaudiodb.com/api/v1/json/2/search.php?s=${keyword.value}`;
   fetch(url)
     .then(res => res.json())
-    .then(data => showArtist(data))
+    .then(data => showArtist(data));
+  keyword.value = '';
 }
 
 const showArtist = ({ artists }) => {
@@ -17,6 +19,7 @@ const showArtist = ({ artists }) => {
   const artistContainer = elementById('artists');
   // const artists = data.artists
   // const { artists } = data;
+  artistContainer.textContent = '';
   artists.forEach(artist => {
     const div = document.createElement('div');
     div.classList.add('artist-card')
@@ -37,7 +40,10 @@ const showArtist = ({ artists }) => {
   </button></p>`
     // console.log(artist);
     artistContainer.appendChild(div)
+
+
   });
+
 }
 const fetchAlbum = (id) => {
   const url = `https://theaudiodb.com/api/v1/json/2/album.php?i=${id}`;
@@ -56,7 +62,7 @@ const showAlbum = ({ album }) => {
        <img src="${album.strAlbumThumb ? album.strAlbumThumb : 'not found'}" alt="" />
     </div>
     <div class="album-name">
-      <h3>${album.strAlbumStripped ? album.strAlbumStripped : 'not found'}</h3>
+      <h3>${album.strAlbum ? album.strAlbum : 'not found'}</h3>
     </div>`
     albumContainer.appendChild(div);
   });
