@@ -10,5 +10,14 @@ const handleSearch = () => {
   console.log(url);
   fetch(url)
     .then(res => res.json())
-    .then(data => console.log(data))
+    .then(data => showArtist(data))
+}
+
+const showArtist = ({ artists }) => {
+  console.log(artists);
+  // const artists = data.artists
+  // const { artists } = data;
+  artists.forEach(artist => {
+    console.log(artist);
+  });
 }
